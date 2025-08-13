@@ -27,3 +27,22 @@ class GalletaChispas(Galleta):
     def mostrar_info(self):
         return (f"Galleta con chispas: {self.nombre} | Precio: Q{self.precio:.2f} | "
                 f"Peso: {self.peso}g | Chispas: {self.cantidad_chispas}")
+
+class Relleno:
+    def __init__(self, sabor_relleno):
+        if not sabor_relleno.strip():
+            raise ValueError("El sabor del relleno no puede estar vacío.")
+        self.sabor_relleno = sabor_relleno
+
+    def describir_relleno(self):
+        return f"Relleno de {self.sabor_relleno}"
+
+#Herencia múltiple
+class GalletaRellena(Galleta, Relleno):
+    def __init__(self, nombre, precio, peso, sabor_relleno):
+        Galleta.__init__(self, nombre, precio, peso)
+        Relleno.__init__(self, sabor_relleno)
+
+    def mostrar_info(self):
+        return (f"Galleta rellena: {self.nombre} | Precio: Q{self.precio:.2f} | "
+                f"Peso: {self.peso}g | {self.describir_relleno()}")
