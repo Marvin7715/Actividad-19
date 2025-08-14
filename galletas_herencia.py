@@ -94,3 +94,72 @@ def registrar_galleta_rellena():
     sabor = input("Sabor del relleno: ").strip()
     galletas.append(GalletaRellena(nombre, precio, peso, sabor))
     print("Galleta rellena registrada.")
+
+def listar_galletas():
+    if not galletas:
+        print("No hay galletas registradas.")
+        return
+    for g in galletas:
+        print(g.mostrar_info())
+
+def buscar_galleta():
+    nombre = input("Nombre a buscar: ").strip()
+    encontrados = [g for g in galletas if g.nombre.lower() == nombre.lower()]
+    if encontrados:
+        for g in encontrados:
+            print(g.mostrar_info())
+    else:
+        print("No se encontró la galleta.")
+
+def eliminar_galleta():
+    nombre = input("Nombre a eliminar: ").strip()
+    global galletas
+    nueva_lista = [g for g in galletas if g.nombre.lower() != nombre.lower()]
+    if len(nueva_lista) == len(galletas):
+        print(" No se encontró la galleta.")
+    else:
+        galletas = nueva_lista
+        print("Galleta eliminada.")
+
+def menu():
+    while True:
+        print("\n--- MENÚ ---")
+        print("1. Registrar galleta básica")
+        print("2. Registrar galleta con chispas")
+        print("3. Registrar galleta rellena")
+        print("4. Listar galletas")
+        print("5. Buscar por nombre")
+        print("6. Eliminar por nombre")
+        print("7. Salir")
+
+        opcion = input("Opción: ").strip()
+
+        match opcion:
+            case "1":
+                try:
+                    registrar_galleta()
+                except (ValueError, RegistroDuplicadoError) as e:
+                    print(f"Error: {e}")
+            case "2":
+                try:
+                    registrar_galleta_chispas()
+                except (ValueError, RegistroDuplicadoError) as e:
+                    print(f"Error: {e}")
+            case "3":
+                try:
+                    registrar_galleta_rellena()
+                except (ValueError, RegistroDuplicadoError) as e:
+                    print(f"Error: {e}")
+            case "4":
+                listar_galletas()
+            case "5":
+                buscar_galleta()
+            case "6":
+                eliminar_galleta()
+            case "7":
+                print("Saliendo...")
+                break
+            case _:
+                print("Opción inválida.")
+
+menu()
