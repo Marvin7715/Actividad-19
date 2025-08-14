@@ -46,3 +46,51 @@ class GalletaRellena(Galleta, Relleno):
     def mostrar_info(self):
         return (f"Galleta rellena: {self.nombre} | Precio: Q{self.precio:.2f} | "
                 f"Peso: {self.peso}g | {self.describir_relleno()}")
+
+galletas = []
+
+def existe_nombre(nombre):
+    return any(g.nombre.lower() == nombre.lower() for g in galletas)
+
+def pedir_float(mensaje):
+    while True:
+        try:
+            return float(input(mensaje))
+        except ValueError:
+            print(" Entrada inválida. Ingresa un número válido.")
+
+def pedir_int(mensaje):
+    while True:
+        try:
+            return int(input(mensaje))
+        except ValueError:
+            print(" Entrada inválida. Ingresa un número entero.")
+
+def registrar_galleta():
+    nombre = input("Nombre: ").strip()
+    if existe_nombre(nombre):
+        raise RegistroDuplicadoError(f"Ya existe una galleta con el nombre '{nombre}'.")
+    precio = pedir_float("Precio: ")
+    peso = pedir_float("Peso (g): ")
+    galletas.append(Galleta(nombre, precio, peso))
+    print("Galleta registrada.")
+
+def registrar_galleta_chispas():
+    nombre = input("Nombre: ").strip()
+    if existe_nombre(nombre):
+        raise RegistroDuplicadoError(f"Ya existe una galleta con el nombre '{nombre}'.")
+    precio = pedir_float("Precio: ")
+    peso = pedir_float("Peso (g): ")
+    cantidad = pedir_int("Cantidad de chispas: ")
+    galletas.append(GalletaChispas(nombre, precio, peso, cantidad))
+    print("Galleta con chispas registrada.")
+
+def registrar_galleta_rellena():
+    nombre = input("Nombre: ").strip()
+    if existe_nombre(nombre):
+        raise RegistroDuplicadoError(f"Ya existe una galleta con el nombre '{nombre}'.")
+    precio = pedir_float("Precio: ")
+    peso = pedir_float("Peso (g): ")
+    sabor = input("Sabor del relleno: ").strip()
+    galletas.append(GalletaRellena(nombre, precio, peso, sabor))
+    print("Galleta rellena registrada.")
